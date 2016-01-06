@@ -1,0 +1,11 @@
+1. s3 is a kv storage. there is no concept about folder.
+the format of path is like folder, but actually it is a key.
+
+2. debug.
+for debug you can disable ssl and use tcpdump for check data.
+aws 客户端可以添加 --debug 开启调试日志, 出错后开case时最好带着 Request ID
+和 Extended Request ID . AWS 几乎所有服务的每次请求都是带有 Request ID 的,
+非常便于定位问题. 至于为什么, 建议看Google早年的论文:
+Dapper, a Large-Scale Distributed Systems Tracing Infrastructure
+
+

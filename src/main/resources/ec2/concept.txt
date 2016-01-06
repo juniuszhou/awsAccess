@@ -1,0 +1,8 @@
+## three types of ec2
+按需实例  预留实例  竞价型实例
+
+1. reserved instance. you buy it according to time with discount
+
+2. spot instance.
+
+3.

@@ -1,0 +1,24 @@
+## http://cloud.51cto.com/art/201508/487987.htm
+
+1. how to get emrfs related jar
+login in emr cluster and check the hadoop-env.sh file
+export HADOOP_CLASSPATH="$HADOOP_CLASSPATH:/usr/share/aws/emr/emrfs/lib/*:/usr/share/aws/emr/lib/*"
+
+copy all files from /usr/share/aws/emr/emrfs and put to core-sites.xml
+
+2. rename op is slow
+S3 rename 操作非常耗时. 众所周知Hadoop Mapreduce 为了保证一致性, 结果文件都是先写临时文件,
+
+最后 rename 成最终输出文件. 在 HDFS 上这种模式没有问题, 但是 S3 就会导致最后 commit job 时非常慢,
+ 因此默认的committer 是单线程rename文件. 结果文件大并且多文件的情况下S3 非常慢.
+ 因此 emrfs 做了一个hack: 结果仅仅写本地文件, 到 commit 的时候再一次性上传结果文件.
+  但如果你输出的一个结果文件太大会导致本地磁盘写满! 不知道哪里是否有参数配置一下这个最大值.
+
+S3 由于不是FileSystem, 仅仅是一个KV存储. 因此在list dir 时会很慢, emrfs 为了优化,
+用dynamodb做了一层索引.但在某些情况下(我们遇到过)mr job fail 会导致索引和 S3 数据不一致.
+ 极端情况下需要使用 emrfs sync path 来同步索引
+
+
+3. invalid request if not specify the endpoint as china.
+
+

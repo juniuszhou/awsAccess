@@ -1,0 +1,19 @@
+## arn amazon resource name
+arn is similar to uri in internet.
+
+arn can be used in any region except in china.
+for china, you must use arn-cn.
+
+{
+  "Version": "2012-10-17",  // you must follow the date format.
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": ["arn:aws:s3:::your-bucket", "arn:aws:s3:::your-bucket/*"]
+    }
+ ]
+}
+
+
+
